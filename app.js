@@ -2,17 +2,21 @@ const express = require("express");
 const app = express();
 const PORT = 8080;
 const ProductManager = require("./productManager");
+const CartManager = require("./cartManager");
+
 
 // Middleware para parsear JSON
 app.use(express.json());
 
 const manager = new ProductManager('products.json');
+const cartManager = new CartManager('carts.json');
+
 
 app.listen(PORT, () => {
     console.log(`Server running on PORT ${PORT}`);
 });
 
-// Endpoints de Express
+// Endpoints de los PRODUCTOS
 
 // Endpoint para agregar un nuevo producto
 app.post('/products', async (req, res) => {
@@ -91,7 +95,67 @@ app.delete('/products/:id', (req, res) => {
     res.send('Product deleted');
 });
 
-// Otros endpoints (get por ID, put, delete) aquí...
+// Endpoints del CARRITO
+
+app.post('/carts', async (req, res) => {
+    try {
+        const newCart = await cartManager.addCart();
+        res.status(201).json(newCart);
+    } catch (err) {
+        console.error('Error adding cart:', err);
+        res.status(500).send('Error adding cart');
+    }
+});
+
+app.get('/carts', async (req, res) => {
+    const carts = await cartManager.getCarts();
+    res.json(carts);
+});
+
+app.get('/carts/:id', async (req, res) => {
+    const id = parseInt(req.params.id);
+    const cart = await cartManager.getCart(id);
+    if (cart) {
+        res.json(cart);
+    } else {
+        res.status(404).json({ error: 'Cart not found' });
+    }
+});
+
+app.post('/carts/:id/products', async (req, res) => {
+    const cartId = parseInt(req.params.id);
+    const product = req.body;
+    try {
+        const updatedCart = await cartManager.addProductToCart(cartId, product);
+        res.json(updatedCart);
+    } catch (err) {
+        console.error('Error adding product to cart:', err);
+        res.status(404).send('Cart not found');
+    }
+});
+
+app.post('/carts/:cid/product/:pid', async (req, res) => {
+    const cartId = parseInt(req.params.cid);
+    const productId = parseInt(req.params.pid);
+    try {
+        const updatedCart = await cartManager.addProductToCart(cartId, productId);
+        res.json(updatedCart);
+    } catch (err) {
+        console.error('Error adding product to cart:', err);
+        res.status(404).send('Cart not found');
+    }
+});
+
+// Iniciar un carrito
+
+(async () => {
+    try {
+        const newCart = await cartManager.addCart();
+        console.log('New cart added:', newCart);
+    } catch (err) {
+        console.error('Error executing initial operations:', err);
+    }
+})();
 
 // Ejemplos de operaciones de manejo de productos (puedes mover estos a un script separado si prefieres)
 (async () => {

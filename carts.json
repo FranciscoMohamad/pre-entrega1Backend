@@ -1,0 +1,60 @@
+[
+  {
+    "id": 240240,
+    "products": []
+  },
+  {
+    "id": 807104,
+    "products": []
+  },
+  {
+    "id": 239415,
+    "products": []
+  },
+  {
+    "id": 157843,
+    "products": []
+  },
+  {
+    "id": 689400,
+    "products": [
+      {
+        "title": "Producto X",
+        "description": "Descripción del Producto X",
+        "price": 1000,
+        "code": "XYZ123",
+        "stock": 5,
+        "category": "Categoría X",
+        "thumbnails": [
+          "ruta1",
+          "ruta2"
+        ]
+      }
+    ]
+  },
+  {
+    "id": 507216,
+    "products": []
+  },
+  {
+    "id": 514471,
+    "products": []
+  },
+  {
+    "id": 745637,
+    "products": [
+      {
+        "product": 1,
+        "quantity": 3
+      }
+    ]
+  },
+  {
+    "id": 542670,
+    "products": []
+  },
+  {
+    "id": 584575,
+    "products": []
+  }
+]
