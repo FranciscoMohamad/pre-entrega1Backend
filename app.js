@@ -1,8 +1,8 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
-const ProductManager = require("./productManager");
-const CartManager = require("./cartManager");
+const ProductManager = require("./src/productManager");
+const CartManager = require("./src/cartManager");
 
 
 // Middleware para parsear JSON

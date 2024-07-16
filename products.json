@@ -30,5 +30,37 @@
     "code": "ACC123",
     "stock": 10,
     "id": 4
+  },
+  {
+    "title": "producto A",
+    "description": "descripcion del producto A",
+    "price": 1000,
+    "code": "ABC123",
+    "stock": 10,
+    "id": 5
+  },
+  {
+    "title": "producto B",
+    "description": "descripcion del producto B",
+    "price": 1700,
+    "code": "ACC123",
+    "stock": 10,
+    "id": 6
+  },
+  {
+    "title": "producto C",
+    "description": "descripcion del producto C",
+    "price": 100,
+    "code": "ACC123",
+    "stock": 10,
+    "id": 7
+  },
+  {
+    "title": "producto D",
+    "description": "descripcion del producto D",
+    "price": 1300,
+    "code": "ACC123",
+    "stock": 10,
+    "id": 8
   }
 ]
