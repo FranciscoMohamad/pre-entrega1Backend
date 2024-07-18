@@ -1,7 +1,6 @@
 const fs = require("fs").promises;
 
 class ProductManager {
-
     constructor(filePath) {
         this.path = filePath;
         this.initializeFile();
@@ -18,7 +17,7 @@ class ProductManager {
 
     async getNextId() {
         const products = await this.getProductsFromFile();
-        return products.length + 1; // Calcula el próximo ID basado en la cantidad actual de productos
+        return products.length > 0 ? products[products.length - 1].id + 1 : 1; // Calcula el próximo ID basado en la cantidad actual de productos
     }
 
     async addProduct(product) {
@@ -33,15 +32,23 @@ class ProductManager {
     
         // Guardar los productos actualizados en el archivo
         await this.saveProductsToFile(products);
+        
+        // Log de productos
+        console.log('Producto agregado:', product);
+        console.log('Todos los productos:', products);
     }
 
     async getProducts() {
-        return await this.getProductsFromFile(); // Obtiene y devuelve todos los productos
+        const products = await this.getProductsFromFile(); // Obtiene y devuelve todos los productos
+        console.log('Obteniendo todos los productos:', products);
+        return products;
     }
 
     async getProduct(id) {
         const products = await this.getProductsFromFile();
-        return products.find(product => product.id === id); // Busca y devuelve el producto por ID
+        const product = products.find(product => product.id === id); // Busca y devuelve el producto por ID
+        console.log(`Obteniendo producto con ID ${id}:`, product);
+        return product;
     }
 
     async updateProduct(id, updateFields) {
@@ -51,13 +58,27 @@ class ProductManager {
         if (index !== -1) {
             products[index] = { ...products[index], ...updateFields }; // Actualiza los campos del producto
             await this.saveProductsToFile(products); // Guarda los productos actualizados en el archivo
+            console.log(`Producto con ID ${id} actualizado:`, products[index]);
+            return products[index];
+        } else {
+            console.log(`Producto con ID ${id} no encontrado para actualizar.`);
+            return null;
         }
     }
 
     async deleteProduct(id) {
         let products = await this.getProductsFromFile();
+        const initialLength = products.length;
         products = products.filter(product => product.id !== id); // Filtra los productos para eliminar el producto por ID
-        await this.saveProductsToFile(products); // Guarda los productos actualizados en el archivo
+        
+        if (products.length < initialLength) {
+            await this.saveProductsToFile(products); // Guarda los productos actualizados en el archivo
+            console.log(`Producto con ID ${id} eliminado.`);
+            return true;
+        } else {
+            console.log(`Producto con ID ${id} no encontrado para eliminar.`);
+            return false;
+        }
     }
 
     async getProductsFromFile() {
@@ -76,3 +97,5 @@ class ProductManager {
 }
 
 module.exports = ProductManager;
+
+
